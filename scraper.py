@@ -1,44 +1,17 @@
 import requests
-import re
 
-def get_tv3_link():
-    url = "https://www.kds.tw/tv/malaysia-tv-channels-online/tv3-sd/"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Referer": "https://www.kds.tw/" # Tambah ini supaya server tak block
-    }
+def get_live():
+    # Link stream TV3
+    url = "https://tonton-live-001.akamaized.net/content/bundle/B-TV3/manifest.m3u8"
     
-    print(f"Sedang mencari link dari: {url}")
+    content = "#EXTM3U\n"
+    content += "#EXTINF:-1 tvg-id='TV3' tvg-logo='https://upload.wikimedia.org/wikipedia/commons/6/62/TV3_logo_2014.png',TV3\n"
+    content += url
     
-    try:
-        # Gunakan session supaya cookies disimpan (lebih nampak macam manusia buka)
-        session = requests.Session()
-        response = session.get(url, headers=headers, timeout=15)
-        
-        # Regex yang lebih fleksibel untuk cari .m3u8
-        match = re.search(r'(https?://[^\s"\']*?\.m3u8\?[^\s"\']*)', response.text)
-        
-        if match:
-            found_link = match.group(1)
-            # Kadangkala ada backslash (\/) dalam kod web, kita bersihkan
-            clean_link = found_link.replace('\\/', '/')
-            print(f"✅ BERJAYA: {clean_link}")
-            return clean_link
-        else:
-            print("❌ GAGAL: Link m3u8 tidak dijumpai dalam kod web.")
-            return None
-    except Exception as e:
-        print(f"⚠️ ERROR: {e}")
-        return None
-
-def main():
-    link = get_tv3_link()
-    if link:
-        content = f"#EXTM3U\n#EXT-X-INDEPENDENT-SEGMENTS\n\n#EXTINF:-1, TV3 MALAYSIA\n{link}\n"
-        with open("playlist.m3u8", "w") as f:
-            f.write(content)
-        print("Done! Fail 'playlist.m3u8' dikemaskini.")
+    with open("playlist.m3u8", "w") as f:
+        f.write(content)
+    print("Fail playlist.m3u8 berjaya dihasilkan!")
 
 if __name__ == "__main__":
-    main()
+    get_live()
     
