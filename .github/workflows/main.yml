@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # TAMBAH DUA BARIS INI (SANGAT PENTING!)
+    # Baris di bawah ini akan membetulkan Error 128 anda
     permissions:
       contents: write
     
