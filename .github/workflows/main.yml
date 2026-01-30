@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Baris di bawah ini adalah 'kunci' supaya pangkah merah hilang
+    # TAMBAH DUA BARIS INI (SANGAT PENTING!)
     permissions:
       contents: write
     
